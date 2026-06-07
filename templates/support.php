@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="<?php echo esc_url( KINGRING_SUPPORT_PAGES_URL . 'assets/card-borders.css?ver=' . KINGRING_SUPPORT_PAGES_VERSION ); ?>">
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class( 'kr-page' ); ?>>
