@@ -2,7 +2,7 @@
 /**
  * Plugin Name: King Ring Support Pages
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.0.0
+ * Version: 2.0.2
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.0.0' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.0.2' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_template( $template ) {
@@ -164,7 +164,7 @@ function kingring_support_pages_footer() {
 	?>
 	<footer class="kr-footer">
 		<div class="kr-footer__inner">
-			<p><a href="<?php echo esc_url( home_url( '/support/' ) ); ?>"><?php esc_html_e( 'Support Main Page', 'kingring-support-pages' ); ?></a> | King Ring TM | All Rights Reserved | <a href="mailto:support@kingring.store">support@kingring.store</a> | <?php echo esc_html( gmdate( 'Y' ) ); ?></p>
+			<p><a href="<?php echo esc_url( home_url( '/support/' ) ); ?>"><?php esc_html_e( 'Support Main Page', 'kingring-support-pages' ); ?></a> | King Ring TM | All Rights Reserved | <a href="mailto:support@kingring.store">support@kingring.store</a> | 2027</p>
 			<a href="<?php echo esc_url( home_url( '/support/' ) ); ?>"><img src="<?php echo kingring_support_pages_image( 'logo-footer-dark.png' ); ?>" width="427" height="317" alt="<?php esc_attr_e( 'King Ring logo', 'kingring-support-pages' ); ?>"></a>
 		</div>
 	</footer>
