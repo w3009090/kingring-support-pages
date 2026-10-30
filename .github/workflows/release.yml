@@ -20,9 +20,9 @@ jobs:
           mkdir -p release/kingring-support-pages
           cp -R assets templates kingring-support-pages.php README.md release/kingring-support-pages/
           cd release
-          zip -r "../Codex Plugin.zip" kingring-support-pages
+          zip -r ../CodexPlugin.zip kingring-support-pages
 
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" "Codex Plugin.zip" --title "$GITHUB_REF_NAME" --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" CodexPlugin.zip --title "$GITHUB_REF_NAME" --generate-notes

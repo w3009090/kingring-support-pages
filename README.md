@@ -1,8 +1,8 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.4.6**.
+Current version: **2.4.7**.
 
-[Download the installable WordPress ZIP](<downloads/Codex Plugin.zip>)
+[Download the installable WordPress ZIP](downloads/CodexPlugin.zip)
 
 Upload this ZIP under **Plugins > Add New Plugin > Upload Plugin** and replace
 the installed plugin when prompted. Edit page content in **King Ring Support**
@@ -31,7 +31,7 @@ For every update:
 3. Create a GitHub Release from that tag.
 4. Attach the installable plugin archive named exactly:
 
-   `Codex Plugin.zip`
+   `CodexPlugin.zip`
 
 The ZIP must contain the `kingring-support-pages` directory at its root.
 WordPress will then display the release through its standard plugin updater.
