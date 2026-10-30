@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.4.9
+ * Version: 2.5.0
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.9' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.0' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -68,6 +68,8 @@ function kingring_support_pages_defaults() {
 		'auto_reply_subject'       => 'We received your King Ring support request {ticket}',
 		'auto_reply_message'       => "Hello {name},\n\nThank you for contacting King Ring Support. We received your request {ticket} about \"{subject}\".\n\nOur team will reply within 1 business day.\n\nKing Ring Support",
 		'reply_time_text'          => 'Within 1 business day, Mon-Fri.',
+		'disable_blog'             => '1',
+		'disable_comments'         => '1',
 	);
 }
 
@@ -183,6 +185,7 @@ function kingring_support_pages_sanitize_settings( $input ) {
 	$output   = array();
 	$urls     = array( 'store_url', 'rate_url', 'map_url', 'logo_url', 'hero_image_url', 'privacy_url' );
 	$emails   = array( 'form_recipient', 'public_email' );
+	$checkboxes = array( 'disable_blog', 'disable_comments' );
 	$areas    = array(
 		'support_intro',
 		'contact_card_text',
@@ -196,6 +199,11 @@ function kingring_support_pages_sanitize_settings( $input ) {
 	);
 
 	foreach ( $defaults as $key => $default ) {
+		if ( in_array( $key, $checkboxes, true ) ) {
+			$output[ $key ] = isset( $input[ $key ] ) ? '1' : '0';
+			continue;
+		}
+
 		$value = isset( $input[ $key ] ) ? wp_unslash( $input[ $key ] ) : $default;
 
 		if ( in_array( $key, $urls, true ) ) {
@@ -300,6 +308,20 @@ function kingring_support_pages_admin_field( $settings, $key, $label, $type = 't
 	<?php
 }
 
+function kingring_support_pages_admin_checkbox( $settings, $key, $label, $description ) {
+	$name    = 'kingring_support_pages_settings[' . $key . ']';
+	$enabled = ! empty( $settings[ $key ] ) && '0' !== (string) $settings[ $key ];
+	?>
+	<label class="krsp-admin-toggle">
+		<input name="<?php echo esc_attr( $name ); ?>" type="checkbox" value="1" <?php checked( $enabled ); ?>>
+		<span>
+			<strong><?php echo esc_html( $label ); ?></strong>
+			<small><?php echo esc_html( $description ); ?></small>
+		</span>
+	</label>
+	<?php
+}
+
 function kingring_support_pages_settings_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
@@ -384,11 +406,19 @@ function kingring_support_pages_settings_page() {
 				</div>
 			</section>
 
+			<section>
+				<h2><?php esc_html_e( 'WordPress Features', 'kingring-support-pages' ); ?></h2>
+				<div class="krsp-admin-grid">
+					<?php kingring_support_pages_admin_checkbox( $settings, 'disable_blog', 'Disable Blog', 'Hide Posts and redirect public blog URLs to the homepage. If the homepage shows latest posts, it redirects to Support.' ); ?>
+					<?php kingring_support_pages_admin_checkbox( $settings, 'disable_comments', 'Disable Comments', 'Close comments and pings, hide comment administration and disable comment API endpoints.' ); ?>
+				</div>
+			</section>
+
 			<?php submit_button( __( 'Save Changes', 'kingring-support-pages' ) ); ?>
 		</form>
 	</div>
 	<style>
-		.krsp-admin{max-width:1180px}.krsp-admin>p{color:#646970}.krsp-admin section{margin:22px 0;padding:22px;background:#fff;border:1px solid #dcdcde;border-radius:4px}.krsp-admin section h2{margin-top:0}.krsp-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px}.krsp-admin-field{display:grid;gap:7px}.krsp-admin-field span{font-weight:600}.krsp-admin-field input,.krsp-admin-field textarea{width:100%;max-width:none}.krsp-admin-field textarea{resize:vertical}.krsp-media-field{display:flex;gap:8px}.krsp-media-field input{flex:1}@media(max-width:782px){.krsp-admin-grid{grid-template-columns:1fr}.krsp-media-field{align-items:stretch;flex-direction:column}}
+		.krsp-admin{max-width:1180px}.krsp-admin>p{color:#646970}.krsp-admin section{margin:22px 0;padding:22px;background:#fff;border:1px solid #dcdcde;border-radius:4px}.krsp-admin section h2{margin-top:0}.krsp-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px}.krsp-admin-field{display:grid;gap:7px}.krsp-admin-field span{font-weight:600}.krsp-admin-field input,.krsp-admin-field textarea{width:100%;max-width:none}.krsp-admin-field textarea{resize:vertical}.krsp-media-field{display:flex;gap:8px}.krsp-media-field input{flex:1}.krsp-admin-toggle{display:flex;align-items:flex-start;gap:10px;padding:16px;border:1px solid #dcdcde;border-radius:4px;background:#f6f7f7}.krsp-admin-toggle input{margin-top:3px}.krsp-admin-toggle span{display:grid;gap:5px}.krsp-admin-toggle small{color:#646970;font-weight:400;line-height:1.45}@media(max-width:782px){.krsp-admin-grid{grid-template-columns:1fr}.krsp-media-field{align-items:stretch;flex-direction:column}}
 	</style>
 	<script>
 		document.addEventListener('click', function (event) {
@@ -408,6 +438,223 @@ function kingring_support_pages_settings_page() {
 	</script>
 	<?php
 }
+
+function kingring_support_pages_feature_enabled( $key ) {
+	$value = kingring_support_pages_setting( $key );
+	return ! empty( $value ) && '0' !== (string) $value;
+}
+
+function kingring_support_pages_disable_blog_enabled() {
+	return kingring_support_pages_feature_enabled( 'disable_blog' );
+}
+
+function kingring_support_pages_disable_comments_enabled() {
+	return kingring_support_pages_feature_enabled( 'disable_comments' );
+}
+
+function kingring_support_pages_hide_disabled_admin_menus() {
+	if ( kingring_support_pages_disable_blog_enabled() ) {
+		remove_menu_page( 'edit.php' );
+	}
+
+	if ( kingring_support_pages_disable_comments_enabled() ) {
+		remove_menu_page( 'edit-comments.php' );
+	}
+}
+add_action( 'admin_menu', 'kingring_support_pages_hide_disabled_admin_menus', 999 );
+
+function kingring_support_pages_hide_disabled_admin_bar_nodes( $wp_admin_bar ) {
+	if ( kingring_support_pages_disable_blog_enabled() ) {
+		$wp_admin_bar->remove_node( 'new-post' );
+	}
+
+	if ( kingring_support_pages_disable_comments_enabled() ) {
+		$wp_admin_bar->remove_node( 'comments' );
+	}
+}
+add_action( 'admin_bar_menu', 'kingring_support_pages_hide_disabled_admin_bar_nodes', 999 );
+
+function kingring_support_pages_is_blog_admin_request() {
+	global $pagenow;
+
+	if ( in_array( $pagenow, array( 'edit.php', 'post-new.php' ), true ) ) {
+		$post_type = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : 'post';
+		return 'post' === $post_type;
+	}
+
+	if ( 'post.php' === $pagenow && isset( $_GET['post'] ) ) {
+		return 'post' === get_post_type( absint( $_GET['post'] ) );
+	}
+
+	return false;
+}
+
+function kingring_support_pages_restrict_disabled_admin_pages() {
+	global $pagenow;
+
+	if ( kingring_support_pages_disable_blog_enabled() && kingring_support_pages_is_blog_admin_request() ) {
+		wp_safe_redirect( admin_url() );
+		exit;
+	}
+
+	if ( kingring_support_pages_disable_comments_enabled() && in_array( $pagenow, array( 'edit-comments.php', 'comment.php' ), true ) ) {
+		wp_safe_redirect( admin_url() );
+		exit;
+	}
+}
+add_action( 'admin_init', 'kingring_support_pages_restrict_disabled_admin_pages' );
+
+function kingring_support_pages_is_disabled_blog_request() {
+	if ( ! kingring_support_pages_disable_blog_enabled() || is_front_page() ) {
+		return false;
+	}
+
+	return is_home()
+		|| is_singular( 'post' )
+		|| is_post_type_archive( 'post' )
+		|| is_category()
+		|| is_tag()
+		|| is_date()
+		|| is_author()
+		|| is_feed();
+}
+
+function kingring_support_pages_disabled_blog_redirect_url() {
+	if ( is_front_page() && is_home() ) {
+		$support_page = get_page_by_path( 'support' );
+
+		if ( $support_page ) {
+			return get_permalink( $support_page );
+		}
+
+		return home_url( '/support/' );
+	}
+
+	return home_url( '/' );
+}
+
+function kingring_support_pages_redirect_disabled_content() {
+	$latest_posts_home     = kingring_support_pages_disable_blog_enabled() && is_front_page() && is_home();
+	$disabled_blog_request = kingring_support_pages_is_disabled_blog_request();
+	$disabled_comment_feed = kingring_support_pages_disable_comments_enabled() && is_comment_feed();
+
+	if ( ! $latest_posts_home && ! $disabled_blog_request && ! $disabled_comment_feed ) {
+		return;
+	}
+
+	wp_safe_redirect( kingring_support_pages_disabled_blog_redirect_url() );
+	exit;
+}
+add_action( 'template_redirect', 'kingring_support_pages_redirect_disabled_content', 1 );
+
+function kingring_support_pages_exclude_posts_from_search( $query ) {
+	if ( ! kingring_support_pages_disable_blog_enabled() || is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+		return;
+	}
+
+	$post_types = get_post_types(
+		array(
+			'public'              => true,
+			'exclude_from_search' => false,
+		),
+		'names'
+	);
+
+	unset( $post_types['post'] );
+	$query->set( 'post_type', array_values( $post_types ) );
+}
+add_action( 'pre_get_posts', 'kingring_support_pages_exclude_posts_from_search', 20 );
+
+function kingring_support_pages_disable_post_and_comment_support() {
+	if ( kingring_support_pages_disable_blog_enabled() ) {
+		remove_action( 'wp_head', 'feed_links', 2 );
+		remove_action( 'wp_head', 'feed_links_extra', 3 );
+	}
+
+	if ( ! kingring_support_pages_disable_comments_enabled() ) {
+		return;
+	}
+
+	foreach ( get_post_types( array(), 'names' ) as $post_type ) {
+		remove_post_type_support( $post_type, 'comments' );
+		remove_post_type_support( $post_type, 'trackbacks' );
+	}
+}
+add_action( 'init', 'kingring_support_pages_disable_post_and_comment_support', 100 );
+
+function kingring_support_pages_close_comments( $open ) {
+	return kingring_support_pages_disable_comments_enabled() ? false : $open;
+}
+add_filter( 'comments_open', 'kingring_support_pages_close_comments', 20 );
+add_filter( 'pings_open', 'kingring_support_pages_close_comments', 20 );
+
+function kingring_support_pages_hide_existing_comments( $comments ) {
+	return kingring_support_pages_disable_comments_enabled() ? array() : $comments;
+}
+add_filter( 'comments_array', 'kingring_support_pages_hide_existing_comments', 20 );
+
+function kingring_support_pages_skip_comment_queries( $comments ) {
+	return kingring_support_pages_disable_comments_enabled() ? array() : $comments;
+}
+add_filter( 'comments_pre_query', 'kingring_support_pages_skip_comment_queries', 20 );
+
+function kingring_support_pages_hide_comment_count( $count ) {
+	return kingring_support_pages_disable_comments_enabled() ? 0 : $count;
+}
+add_filter( 'get_comments_number', 'kingring_support_pages_hide_comment_count', 20 );
+
+function kingring_support_pages_default_comment_status( $status ) {
+	return kingring_support_pages_disable_comments_enabled() ? 'closed' : $status;
+}
+add_filter( 'pre_option_default_comment_status', 'kingring_support_pages_default_comment_status' );
+add_filter( 'pre_option_default_ping_status', 'kingring_support_pages_default_comment_status' );
+
+function kingring_support_pages_filter_rest_endpoints( $endpoints ) {
+	foreach ( array_keys( $endpoints ) as $route ) {
+		if ( kingring_support_pages_disable_comments_enabled() && preg_match( '#^/wp/v2/comments(?:/|$)#', $route ) ) {
+			unset( $endpoints[ $route ] );
+			continue;
+		}
+
+		if ( kingring_support_pages_disable_blog_enabled() && preg_match( '#^/wp/v2/(?:posts|categories|tags)(?:/|$)#', $route ) ) {
+			unset( $endpoints[ $route ] );
+		}
+	}
+
+	return $endpoints;
+}
+add_filter( 'rest_endpoints', 'kingring_support_pages_filter_rest_endpoints' );
+
+function kingring_support_pages_filter_xmlrpc_methods( $methods ) {
+	if ( kingring_support_pages_disable_comments_enabled() ) {
+		foreach ( array_keys( $methods ) as $method ) {
+			if ( 0 === strpos( $method, 'wp.getComment' ) || 0 === strpos( $method, 'wp.newComment' ) || 0 === strpos( $method, 'wp.editComment' ) || 0 === strpos( $method, 'wp.deleteComment' ) || 0 === strpos( $method, 'pingback.' ) ) {
+				unset( $methods[ $method ] );
+			}
+		}
+	}
+
+	return $methods;
+}
+add_filter( 'xmlrpc_methods', 'kingring_support_pages_filter_xmlrpc_methods' );
+
+function kingring_support_pages_filter_sitemap_post_types( $post_types ) {
+	if ( kingring_support_pages_disable_blog_enabled() ) {
+		unset( $post_types['post'] );
+	}
+
+	return $post_types;
+}
+add_filter( 'wp_sitemaps_post_types', 'kingring_support_pages_filter_sitemap_post_types' );
+
+function kingring_support_pages_filter_sitemap_taxonomies( $taxonomies ) {
+	if ( kingring_support_pages_disable_blog_enabled() ) {
+		unset( $taxonomies['category'], $taxonomies['post_tag'] );
+	}
+
+	return $taxonomies;
+}
+add_filter( 'wp_sitemaps_taxonomies', 'kingring_support_pages_filter_sitemap_taxonomies' );
 
 function kingring_support_pages_template( $template ) {
 	if ( is_page( 'support' ) ) {
