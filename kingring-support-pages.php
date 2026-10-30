@@ -493,6 +493,15 @@ function kingring_support_pages_release_package( $release ) {
 		$name = isset( $asset['name'] ) ? strtolower( $asset['name'] ) : '';
 		$url  = isset( $asset['browser_download_url'] ) ? $asset['browser_download_url'] : '';
 
+		if ( $url && 'codex plugin.zip' === $name ) {
+			return esc_url_raw( $url );
+		}
+	}
+
+	foreach ( $release['assets'] as $asset ) {
+		$name = isset( $asset['name'] ) ? strtolower( $asset['name'] ) : '';
+		$url  = isset( $asset['browser_download_url'] ) ? $asset['browser_download_url'] : '';
+
 		if ( $url && 'kingring-support-pages.zip' === $name ) {
 			return esc_url_raw( $url );
 		}
