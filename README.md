@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.4.7**.
+Current version: **2.4.8**.
 
 [Download the installable WordPress ZIP](downloads/CodexPlugin.zip)
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.4.7
+ * Version: 2.4.8
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.7' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.8' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -241,6 +241,8 @@ function kingring_support_pages_upgrade_settings() {
 		update_option( 'kingring_support_pages_settings', $saved );
 	}
 
+	delete_site_transient( 'kingring_support_pages_github_release' );
+	delete_site_transient( 'update_plugins' );
 	update_option( 'kingring_support_pages_installed_version', KINGRING_SUPPORT_PAGES_VERSION );
 }
 add_action( 'plugins_loaded', 'kingring_support_pages_upgrade_settings' );
@@ -447,8 +449,19 @@ function kingring_support_pages_latest_release() {
 	$cache_key = 'kingring_support_pages_github_release';
 	$release   = get_site_transient( $cache_key );
 
+	if ( is_array( $release ) && ! empty( $release['tag_name'] ) ) {
+		$cached_version = ltrim( sanitize_text_field( $release['tag_name'] ), 'vV' );
+
+		if ( version_compare( $cached_version, KINGRING_SUPPORT_PAGES_VERSION, '>=' ) ) {
+			return $release;
+		}
+
+		delete_site_transient( $cache_key );
+		$release = false;
+	}
+
 	if ( false !== $release ) {
-		return is_array( $release ) ? $release : false;
+		return false;
 	}
 
 	$response = wp_remote_get(
@@ -474,7 +487,7 @@ function kingring_support_pages_latest_release() {
 		return false;
 	}
 
-	set_site_transient( $cache_key, $release, 6 * HOUR_IN_SECONDS );
+	set_site_transient( $cache_key, $release, HOUR_IN_SECONDS );
 	return $release;
 }
 
