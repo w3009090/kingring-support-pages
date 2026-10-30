@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.4.8
+ * Version: 2.4.9
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.8' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.9' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -589,6 +589,51 @@ function kingring_support_pages_enable_auto_updates( $update, $item ) {
 	return $update;
 }
 add_filter( 'auto_update_plugin', 'kingring_support_pages_enable_auto_updates', 10, 2 );
+
+function kingring_support_pages_plugin_row_meta( $links, $plugin_file ) {
+	if ( plugin_basename( __FILE__ ) !== $plugin_file || ! current_user_can( 'update_plugins' ) ) {
+		return $links;
+	}
+
+	$check_url = wp_nonce_url(
+		admin_url( 'admin-post.php?action=kingring_support_pages_check_updates' ),
+		'kingring_support_pages_check_updates'
+	);
+	$links[] = '<a href="' . esc_url( $check_url ) . '">' . esc_html__( 'Check Updates', 'kingring-support-pages' ) . '</a>';
+
+	return $links;
+}
+add_filter( 'plugin_row_meta', 'kingring_support_pages_plugin_row_meta', 10, 2 );
+
+function kingring_support_pages_refresh_update_data() {
+	delete_site_transient( 'kingring_support_pages_github_release' );
+	delete_site_transient( 'update_plugins' );
+	wp_update_plugins();
+}
+
+function kingring_support_pages_check_updates_now() {
+	if ( ! current_user_can( 'update_plugins' ) ) {
+		wp_die( esc_html__( 'You are not allowed to update plugins.', 'kingring-support-pages' ) );
+	}
+
+	check_admin_referer( 'kingring_support_pages_check_updates' );
+	kingring_support_pages_refresh_update_data();
+
+	wp_safe_redirect(
+		add_query_arg( 'codex_plugin_update_check', '1', admin_url( 'plugins.php' ) )
+	);
+	exit;
+}
+add_action( 'admin_post_kingring_support_pages_check_updates', 'kingring_support_pages_check_updates_now' );
+
+function kingring_support_pages_update_check_notice() {
+	if ( empty( $_GET['codex_plugin_update_check'] ) || ! current_user_can( 'update_plugins' ) ) {
+		return;
+	}
+
+	echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Codex Plugin update check completed.', 'kingring-support-pages' ) . '</p></div>';
+}
+add_action( 'admin_notices', 'kingring_support_pages_update_check_notice' );
 
 /**
  * Display GitHub release information in the WordPress plugin details modal.
