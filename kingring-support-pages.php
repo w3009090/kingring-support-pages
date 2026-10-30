@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: King Ring Support Pages
+ * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.4.3
+ * Version: 2.4.4
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.3' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.4' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_template( $template ) {
@@ -134,7 +134,7 @@ function kingring_support_pages_plugin_information( $result, $action, $args ) {
 	$package = kingring_support_pages_release_package( $release );
 	$notes   = isset( $release['body'] ) ? wp_kses_post( nl2br( $release['body'] ) ) : '';
 	return (object) array(
-		'name'          => 'King Ring Support Pages',
+		'name'          => 'Codex Plugin',
 		'slug'          => 'kingring-support-pages',
 		'version'       => $version,
 		'author'        => '<a href="https://github.com/w3009090">w3009090</a>',

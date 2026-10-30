@@ -1,4 +1,4 @@
-# King Ring Support Pages
+# Codex Plugin
 
 WordPress plugin providing standalone layouts for:
 
