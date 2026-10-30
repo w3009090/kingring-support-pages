@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.0**.
+Current version: **2.5.1**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -16,8 +16,8 @@ automatic acknowledgement emails, and logo/main-image selection. FAQ is removed.
 Existing repository changes to the plugin name and automatic updates are retained.
 It also includes built-in switches for disabling WordPress blog and comment
 features, replacing the separate Disable Blog and Disable Comments plugins.
-The switches are enabled by default under **King Ring Support → WordPress
-Features**. After version 2.5.0 is active, the separate plugins can be
+The switches are enabled by default under **Plugins → Codex Plugin → Settings**
+and **King Ring Support → Plugin Features**. After version 2.5.1 is active, the separate plugins can be
 deactivated and deleted. If WordPress is configured to show latest posts on
 the homepage, the built-in blog switch sends that request to `/support/`, so
 no static homepage setting or warning is required.

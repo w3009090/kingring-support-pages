@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.5.0
+ * Version: 2.5.1
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.0' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.1' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -268,6 +268,18 @@ function kingring_support_pages_admin_menu() {
 }
 add_action( 'admin_menu', 'kingring_support_pages_admin_menu' );
 
+function kingring_support_pages_plugin_action_links( $links ) {
+	$settings_link = sprintf(
+		'<a href="%1$s">%2$s</a>',
+		esc_url( admin_url( 'admin.php?page=kingring-support-pages' ) ),
+		esc_html__( 'Settings', 'kingring-support-pages' )
+	);
+
+	array_unshift( $links, $settings_link );
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'kingring_support_pages_plugin_action_links' );
+
 function kingring_support_pages_admin_assets( $hook ) {
 	if ( 'toplevel_page_kingring-support-pages' === $hook ) {
 		wp_enqueue_media();
@@ -334,6 +346,14 @@ function kingring_support_pages_settings_page() {
 		<p><?php esc_html_e( 'Edit the support and contact pages here. Design and layout remain protected.', 'kingring-support-pages' ); ?></p>
 		<form action="options.php" method="post">
 			<?php settings_fields( 'kingring_support_pages_group' ); ?>
+
+			<section>
+				<h2><?php esc_html_e( 'Plugin Features', 'kingring-support-pages' ); ?></h2>
+				<div class="krsp-admin-grid">
+					<?php kingring_support_pages_admin_checkbox( $settings, 'disable_blog', 'Disable Blog', 'Hide Posts and redirect public blog URLs to the homepage. If the homepage shows latest posts, it redirects to Support.' ); ?>
+					<?php kingring_support_pages_admin_checkbox( $settings, 'disable_comments', 'Disable Comments', 'Close comments and pings, hide comment administration and disable comment API endpoints.' ); ?>
+				</div>
+			</section>
 
 			<section>
 				<h2><?php esc_html_e( 'Header', 'kingring-support-pages' ); ?></h2>
@@ -403,14 +423,6 @@ function kingring_support_pages_settings_page() {
 				<h2><?php esc_html_e( 'Footer', 'kingring-support-pages' ); ?></h2>
 				<div class="krsp-admin-grid">
 					<?php kingring_support_pages_admin_field( $settings, 'footer_copyright', 'Copyright text ({year} inserts 2027)' ); ?>
-				</div>
-			</section>
-
-			<section>
-				<h2><?php esc_html_e( 'WordPress Features', 'kingring-support-pages' ); ?></h2>
-				<div class="krsp-admin-grid">
-					<?php kingring_support_pages_admin_checkbox( $settings, 'disable_blog', 'Disable Blog', 'Hide Posts and redirect public blog URLs to the homepage. If the homepage shows latest posts, it redirects to Support.' ); ?>
-					<?php kingring_support_pages_admin_checkbox( $settings, 'disable_comments', 'Disable Comments', 'Close comments and pings, hide comment administration and disable comment API endpoints.' ); ?>
 				</div>
 			</section>
 
