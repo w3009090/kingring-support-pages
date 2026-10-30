@@ -2,7 +2,7 @@
 /**
  * Plugin Name: King Ring Support Pages
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.0.2
+ * Version: 2.4.3
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.0.2' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.3' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_template( $template ) {
@@ -95,21 +95,32 @@ function kingring_support_pages_check_for_update( $transient ) {
 	}
 	$version = ltrim( sanitize_text_field( $release['tag_name'] ), 'vV' );
 	$package = kingring_support_pages_release_package( $release );
+	$update = (object) array(
+		'id'           => 'github.com/w3009090/kingring-support-pages',
+		'slug'         => 'kingring-support-pages',
+		'plugin'       => $plugin_file,
+		'new_version'  => $version,
+		'url'          => 'https://github.com/w3009090/kingring-support-pages',
+		'package'      => $package,
+		'tested'       => '',
+		'requires_php' => '7.4',
+	);
 	if ( $package && version_compare( KINGRING_SUPPORT_PAGES_VERSION, $version, '<' ) ) {
-		$transient->response[ $plugin_file ] = (object) array(
-			'id'           => 'github.com/w3009090/kingring-support-pages',
-			'slug'         => 'kingring-support-pages',
-			'plugin'       => $plugin_file,
-			'new_version'  => $version,
-			'url'          => 'https://github.com/w3009090/kingring-support-pages',
-			'package'      => $package,
-			'tested'       => '',
-			'requires_php' => '7.4',
-		);
+		$transient->response[ $plugin_file ] = $update;
+	} else {
+		$transient->no_update[ $plugin_file ] = $update;
 	}
 	return $transient;
 }
 add_filter( 'pre_set_site_transient_update_plugins', 'kingring_support_pages_check_for_update' );
+
+function kingring_support_pages_enable_auto_updates( $update, $item ) {
+	if ( isset( $item->plugin ) && plugin_basename( __FILE__ ) === $item->plugin ) {
+		return true;
+	}
+	return $update;
+}
+add_filter( 'auto_update_plugin', 'kingring_support_pages_enable_auto_updates', 10, 2 );
 
 function kingring_support_pages_plugin_information( $result, $action, $args ) {
 	if ( 'plugin_information' !== $action || empty( $args->slug ) || 'kingring-support-pages' !== $args->slug ) {
