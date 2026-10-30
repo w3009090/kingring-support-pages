@@ -1,8 +1,8 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.4.5**.
+Current version: **2.4.6**.
 
-[Download the installable WordPress ZIP](downloads/kingring-support-pages-v2.4.5.zip)
+[Download the installable WordPress ZIP](downloads/kingring-support-pages-v2.4.6.zip)
 
 Upload this ZIP under **Plugins > Add New Plugin > Upload Plugin** and replace
 the installed plugin when prompted. Edit page content in **King Ring Support**

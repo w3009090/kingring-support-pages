@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.4.5
+ * Version: 2.4.6
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.5' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.4.6' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -54,7 +54,7 @@ function kingring_support_pages_defaults() {
 		'reply_time_heading'       => 'Reply Time',
 		'reply_time_text'          => 'Within a few hours, Mon–Fri.',
 		'map_url'                  => 'https://maps.google.com/maps?q=18117%20Biscayne%20Blvd&t=m&z=13&output=embed&iwloc=near',
-		'footer_copyright'         => '© {year} King Ring TM · All rights reserved',
+		'footer_copyright'         => '© 2027 King Ring TM · All rights reserved',
 		'logo_url'                 => '',
 		'hero_image_url'           => '',
 		'contact_intro'            => 'Fill out the form and we will reply within 1 business day.',
@@ -378,7 +378,7 @@ function kingring_support_pages_settings_page() {
 			<section>
 				<h2><?php esc_html_e( 'Footer', 'kingring-support-pages' ); ?></h2>
 				<div class="krsp-admin-grid">
-					<?php kingring_support_pages_admin_field( $settings, 'footer_copyright', 'Copyright text ({year} inserts current year)' ); ?>
+					<?php kingring_support_pages_admin_field( $settings, 'footer_copyright', 'Copyright text ({year} inserts 2027)' ); ?>
 				</div>
 			</section>
 
@@ -627,7 +627,7 @@ function kingring_support_pages_header() {
 
 function kingring_support_pages_footer() {
 	$settings  = kingring_support_pages_settings();
-	$copyright = str_replace( '{year}', gmdate( 'Y' ), $settings['footer_copyright'] );
+	$copyright = str_replace( '{year}', '2027', $settings['footer_copyright'] );
 	$email     = $settings['public_email'];
 	?>
 	<footer class="kr-footer">
