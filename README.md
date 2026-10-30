@@ -1,20 +1,37 @@
-# Codex Plugin
+# Codex Plugin - King Ring Support Pages
+
+Current version: **2.4.5**.
+
+[Download the installable WordPress ZIP](downloads/kingring-support-pages-v2.4.5.zip)
+
+Upload this ZIP under **Plugins > Add New Plugin > Upload Plugin** and replace
+the installed plugin when prompted. Edit page content in **King Ring Support**
+in the WordPress admin menu.
+
+This version includes editable Support and Contact pages, a subject selector,
+an optional order number, file attachments, privacy agreement, ticket numbers,
+automatic acknowledgement emails, and logo/main-image selection. FAQ is removed.
+Existing repository changes to the plugin name and automatic updates are retained.
 
 WordPress plugin providing standalone layouts for:
 
 - `/support/`
 - `/contactus/`
 
-## Automatic updates
+## GitHub auto-updates
 
-The plugin checks the latest public GitHub Release in `w3009090/kingring-support-pages`.
+The plugin checks the latest public GitHub Release in:
+
+`w3009090/kingring-support-pages`
 
 For every update:
 
-1. Increase the plugin header `Version` and `KINGRING_SUPPORT_PAGES_VERSION`.
-2. Create a matching tag, for example `v2.1.0`.
+1. Increase the plugin `Version` and `KINGRING_SUPPORT_PAGES_VERSION`.
+2. Create a matching Git tag, for example `v2.1.0`.
 3. Create a GitHub Release from that tag.
-4. Attach the installable archive named exactly `kingring-support-pages.zip`.
-5. Keep the repository public so WordPress can access the release without a token.
+4. Attach the installable plugin archive named exactly:
+
+   `kingring-support-pages.zip`
 
 The ZIP must contain the `kingring-support-pages` directory at its root.
+WordPress will then display the release through its standard plugin updater.
