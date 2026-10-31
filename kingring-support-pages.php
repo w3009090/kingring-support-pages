@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.5.1
+ * Version: 2.5.2
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.1' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.2' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -344,9 +344,14 @@ function kingring_support_pages_settings_page() {
 	<div class="wrap krsp-admin">
 		<h1><?php esc_html_e( 'King Ring Support', 'kingring-support-pages' ); ?></h1>
 		<p><?php esc_html_e( 'Edit the support and contact pages here. Design and layout remain protected.', 'kingring-support-pages' ); ?></p>
+		<nav class="nav-tab-wrapper krsp-admin-tabs" aria-label="<?php esc_attr_e( 'Plugin settings', 'kingring-support-pages' ); ?>">
+			<a id="krsp-tab-features" class="nav-tab nav-tab-active" href="#krsp-features"><?php esc_html_e( 'Features', 'kingring-support-pages' ); ?></a>
+			<a id="krsp-tab-content" class="nav-tab" href="#krsp-content"><?php esc_html_e( 'Content', 'kingring-support-pages' ); ?></a>
+		</nav>
 		<form action="options.php" method="post">
 			<?php settings_fields( 'kingring_support_pages_group' ); ?>
 
+			<div id="krsp-features" class="krsp-admin-panel" aria-labelledby="krsp-tab-features">
 			<section>
 				<h2><?php esc_html_e( 'Plugin Features', 'kingring-support-pages' ); ?></h2>
 				<div class="krsp-admin-grid">
@@ -355,6 +360,8 @@ function kingring_support_pages_settings_page() {
 				</div>
 			</section>
 
+			</div>
+			<div id="krsp-content" class="krsp-admin-panel" aria-labelledby="krsp-tab-content">
 			<section>
 				<h2><?php esc_html_e( 'Header', 'kingring-support-pages' ); ?></h2>
 				<div class="krsp-admin-grid">
@@ -426,13 +433,66 @@ function kingring_support_pages_settings_page() {
 				</div>
 			</section>
 
+			</div>
 			<?php submit_button( __( 'Save Changes', 'kingring-support-pages' ) ); ?>
 		</form>
 	</div>
 	<style>
-		.krsp-admin{max-width:1180px}.krsp-admin>p{color:#646970}.krsp-admin section{margin:22px 0;padding:22px;background:#fff;border:1px solid #dcdcde;border-radius:4px}.krsp-admin section h2{margin-top:0}.krsp-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px}.krsp-admin-field{display:grid;gap:7px}.krsp-admin-field span{font-weight:600}.krsp-admin-field input,.krsp-admin-field textarea{width:100%;max-width:none}.krsp-admin-field textarea{resize:vertical}.krsp-media-field{display:flex;gap:8px}.krsp-media-field input{flex:1}.krsp-admin-toggle{display:flex;align-items:flex-start;gap:10px;padding:16px;border:1px solid #dcdcde;border-radius:4px;background:#f6f7f7}.krsp-admin-toggle input{margin-top:3px}.krsp-admin-toggle span{display:grid;gap:5px}.krsp-admin-toggle small{color:#646970;font-weight:400;line-height:1.45}@media(max-width:782px){.krsp-admin-grid{grid-template-columns:1fr}.krsp-media-field{align-items:stretch;flex-direction:column}}
+		.krsp-admin{max-width:1180px}.krsp-admin-panel[hidden]{display:none}.krsp-admin-tabs{margin-top:20px}.krsp-admin-tabs .nav-tab{cursor:pointer}.krsp-admin-tabs .nav-tab:focus-visible{outline:2px solid #2271b1;outline-offset:2px}.krsp-admin>p{color:#646970}.krsp-admin section{margin:22px 0;padding:22px;background:#fff;border:1px solid #dcdcde;border-radius:4px}.krsp-admin section h2{margin-top:0}.krsp-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px}.krsp-admin-field{display:grid;gap:7px}.krsp-admin-field span{font-weight:600}.krsp-admin-field input,.krsp-admin-field textarea{width:100%;max-width:none}.krsp-admin-field textarea{resize:vertical}.krsp-media-field{display:flex;gap:8px}.krsp-media-field input{flex:1}.krsp-admin-toggle{display:flex;align-items:flex-start;gap:10px;padding:16px;border:1px solid #dcdcde;border-radius:4px;background:#f6f7f7}.krsp-admin-toggle input{margin-top:3px}.krsp-admin-toggle span{display:grid;gap:5px}.krsp-admin-toggle small{color:#646970;font-weight:400;line-height:1.45}@media(max-width:782px){.krsp-admin-grid{grid-template-columns:1fr}.krsp-media-field{align-items:stretch;flex-direction:column}}
 	</style>
 	<script>
+		(function () {
+			var navigation = document.querySelector('.krsp-admin-tabs');
+			var tabs = Array.prototype.slice.call(navigation.querySelectorAll('a'));
+			var panels = document.querySelectorAll('.krsp-admin-panel');
+			var form = document.querySelector('.krsp-admin form');
+			navigation.setAttribute('role', 'tablist');
+			function activate(id, focus) {
+				if (!tabs.some(function (tab) { return tab.hash === '#' + id; })) {
+					id = 'krsp-features';
+				}
+				tabs.forEach(function (tab) {
+					var selected = tab.hash === '#' + id;
+					tab.setAttribute('role', 'tab');
+					tab.setAttribute('aria-controls', tab.hash.slice(1));
+					tab.setAttribute('aria-selected', String(selected));
+					tab.tabIndex = selected ? 0 : -1;
+					tab.classList.toggle('nav-tab-active', selected);
+					if (selected && focus) { tab.focus(); }
+				});
+				panels.forEach(function (panel) {
+					panel.setAttribute('role', 'tabpanel');
+					panel.hidden = panel.id !== id;
+				});
+				try { sessionStorage.setItem('krsp-settings-tab', id); } catch (error) {}
+			}
+			var initial = window.location.hash.slice(1);
+			if (!initial) {
+				try { initial = sessionStorage.getItem('krsp-settings-tab'); } catch (error) {}
+			}
+			activate(initial, false);
+			tabs.forEach(function (tab, index) {
+				tab.addEventListener('click', function (event) {
+					event.preventDefault();
+					activate(tab.hash.slice(1), false);
+				});
+				tab.addEventListener('keydown', function (event) {
+					var next;
+					if (event.key === 'ArrowRight') { next = (index + 1) % tabs.length; }
+					if (event.key === 'ArrowLeft') { next = (index + tabs.length - 1) % tabs.length; }
+					if (event.key === 'Home') { next = 0; }
+					if (event.key === 'End') { next = tabs.length - 1; }
+					if (next !== undefined) {
+						event.preventDefault();
+						activate(tabs[next].hash.slice(1), true);
+					}
+				});
+			});
+			form.addEventListener('invalid', function (event) {
+				var panel = event.target.closest('.krsp-admin-panel');
+				if (panel && panel.hidden) { activate(panel.id, false); }
+			}, true);
+		}());
 		document.addEventListener('click', function (event) {
 			var button = event.target.closest('.krsp-media-select');
 			if (!button || typeof wp === 'undefined' || !wp.media) {

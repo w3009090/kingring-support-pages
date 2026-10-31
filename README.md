@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.1**.
+Current version: **2.5.2**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -8,7 +8,9 @@ Current version: **2.5.1**.
 
 Upload this ZIP under **Plugins > Add New Plugin > Upload Plugin** and replace
 the installed plugin when prompted. Edit page content in **King Ring Support**
-in the WordPress admin menu.
+in the WordPress admin menu. Settings are grouped into **Features** (checkboxes)
+and **Content** (page text, links and images) tabs. Both tabs share one Save Changes
+button; switching tabs preserves unsaved edits.
 
 This version includes editable Support and Contact pages, a subject selector,
 an optional order number, file attachments, privacy agreement, ticket numbers,
