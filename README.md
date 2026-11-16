@@ -4,6 +4,8 @@ Current version: **2.5.2**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
+[Правила работы со страницами WordPress](PAGE_RULES.md)
+
 [Download the installable WordPress ZIP](downloads/CodexPlugin.zip)
 
 Upload this ZIP under **Plugins > Add New Plugin > Upload Plugin** and replace
