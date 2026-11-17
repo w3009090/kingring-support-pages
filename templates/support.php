@@ -7,26 +7,13 @@ $store_theme = kingring_support_pages_uses_store_theme();
 $settings = kingring_support_pages_settings();
 $hero_url = $settings['hero_image_url']
 	? $settings['hero_image_url']
-	: ( $store_theme ? get_theme_file_uri( '/assets/images/lifestyle-story-banner.jpg' ) : kingring_support_pages_image( 'hero.jpg' ) );
-$store_card_image = $store_theme
-	? get_theme_file_uri( '/assets/images/category-all-rings.jpg' )
-	: kingring_support_pages_image( 'icon-store.jpg' );
-
-if ( $store_theme && function_exists( 'wc_get_product' ) ) {
-	$store_product_post = get_page_by_path( 'k13', OBJECT, 'product' );
-	$store_product = $store_product_post ? wc_get_product( $store_product_post->ID ) : false;
-	if ( $store_product && $store_product->get_image_id() ) {
-		$store_product_image = wp_get_attachment_image_url( $store_product->get_image_id(), 'woocommerce_thumbnail' );
-		if ( $store_product_image ) {
-			$store_card_image = $store_product_image;
-		}
-	}
-}
+	: kingring_support_pages_image( 'hero.jpg' );
+$store_card_image = kingring_support_pages_image( 'icon-store.jpg' );
 
 if ( $store_theme ) {
 	get_header();
 	?>
-	<div id="kr-support-content" class="kr-shell krsp-store-page krsp-store-support">
+	<div id="kr-support-content" class="krsp-store-page krsp-store-support">
 	<?php
 } else {
 	?><!doctype html>
@@ -45,20 +32,11 @@ if ( $store_theme ) {
 ?>
 	<section class="kr-hero">
 		<img src="<?php echo esc_url( $hero_url ); ?>" width="1500" height="879" alt="<?php esc_attr_e( 'Friends wearing King Ring jewelry', 'kingring-support-pages' ); ?>">
-		<?php if ( $store_theme ) : ?>
-			<div class="krsp-support-hero__copy">
-				<p class="kr-eyebrow"><?php echo esc_html( $settings['support_eyebrow'] ); ?></p>
-				<h1><?php echo esc_html( $settings['support_title'] ); ?></h1>
-				<p class="kr-support-intro"><?php echo esc_html( $settings['support_intro'] ); ?></p>
-			</div>
-		<?php endif; ?>
 	</section>
 	<section class="kr-support">
-		<?php if ( ! $store_theme ) : ?>
-			<p class="kr-eyebrow"><?php echo esc_html( $settings['support_eyebrow'] ); ?></p>
-			<h1><?php echo esc_html( $settings['support_title'] ); ?></h1>
-			<p class="kr-support-intro"><?php echo esc_html( $settings['support_intro'] ); ?></p>
-		<?php endif; ?>
+		<p class="kr-eyebrow"><?php echo esc_html( $settings['support_eyebrow'] ); ?></p>
+		<h1><?php echo esc_html( $settings['support_title'] ); ?></h1>
+		<p class="kr-support-intro"><?php echo esc_html( $settings['support_intro'] ); ?></p>
 
 		<div class="kr-grid">
 			<a class="kr-card" href="<?php echo esc_url( home_url( '/contactus/' ) ); ?>">
@@ -81,12 +59,10 @@ if ( $store_theme ) {
 			</a>
 		</div>
 
-		<?php if ( ! $store_theme ) : ?>
-			<blockquote class="kr-support-quote">
-				<p><?php echo esc_html( $settings['support_quote'] ); ?></p>
-				<cite><?php echo esc_html( $settings['support_quote_author'] ); ?></cite>
-			</blockquote>
-		<?php endif; ?>
+		<blockquote class="kr-support-quote">
+			<p><?php echo esc_html( $settings['support_quote'] ); ?></p>
+			<cite><?php echo esc_html( $settings['support_quote_author'] ); ?></cite>
+		</blockquote>
 
 	</section>
 <?php if ( $store_theme ) : ?>

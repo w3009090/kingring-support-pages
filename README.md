@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.6**.
+Current version: **2.5.7**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -48,6 +48,11 @@ consistent 1-business-day reply promise.
 
 Version 2.5.6 uses a real WooCommerce product image for the Shop card instead
 of shrinking a landscape lifestyle banner into the square card media area.
+
+Version 2.5.7 restores the original King Ring Support composition inside the
+unified store shell: full-width support hero, centered introduction, one
+segmented three-action panel and the closing brand quote. Store Header, Footer,
+account and catalog routes remain shared with WooCommerce.
 
 ## GitHub auto-updates
 

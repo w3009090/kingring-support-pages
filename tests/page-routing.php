@@ -129,10 +129,11 @@ foreach ( array( 'support', 'contactus' ) as $slug ) {
 	expect( substr_count( $html, 'class="theme-footer"' ) === 1, $slug . ' store footer once' );
 	expect( ! str_contains( $html, '<header class="kr-header">' ), $slug . ' no standalone header' );
 	if ( 'support' === $slug ) {
-		expect( str_contains( $html, 'lifestyle-story-banner.jpg' ), 'Support uses store hero' );
-		expect( str_contains( $html, '/wp-content/uploads/k13-ring.jpg' ), 'Support uses WooCommerce product image' );
-		expect( str_contains( $html, 'krsp-support-hero__copy' ), 'Support keeps heading in first viewport' );
-		expect( ! str_contains( $html, 'kr-support-quote' ), 'Support omits decorative quote in store layout' );
+		expect( str_contains( $html, '/assets/images/hero.jpg' ), 'Support preserves original hero' );
+		expect( str_contains( $html, '/assets/images/icon-store.jpg' ), 'Support preserves original store icon' );
+		expect( ! str_contains( $html, 'krsp-support-hero__copy' ), 'Support does not use split hero copy' );
+		expect( str_contains( $html, 'kr-support-quote' ), 'Support preserves brand quote' );
+		expect( strpos( $html, 'class="kr-hero"' ) < strrpos( $html, '<h1>' ), 'Support title follows hero' );
 	}
 	if ( 'contactus' === $slug ) {
 		expect( str_contains( $html, 'I agree to the Privacy Policy.' ), 'Contact keeps privacy consent text' );
