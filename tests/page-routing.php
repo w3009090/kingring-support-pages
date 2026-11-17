@@ -12,6 +12,7 @@ $styles = array();
 $response_status = 200;
 $no_cache = false;
 $saved_settings = array();
+$active_stylesheet = 'legacy-theme';
 $_SERVER['REQUEST_METHOD'] = 'GET';
 
 function add_action( ...$args ) {}
@@ -20,6 +21,8 @@ function plugin_basename( $file ) { return basename( dirname( $file ) ) . '/' . 
 function plugin_dir_path( $file ) { return dirname( $file ) . '/'; }
 function plugin_dir_url( $file ) { return '/'; }
 function get_option( $key, $default = false ) { return $GLOBALS['saved_settings']; }
+function get_stylesheet() { return $GLOBALS['active_stylesheet']; }
+function get_template() { return $GLOBALS['active_stylesheet']; }
 function wp_parse_args( $values, $defaults ) { return array_merge( $defaults, $values ); }
 function is_404() { return $GLOBALS['route'] === '404'; }
 function is_page( $slugs ) { return in_array( $GLOBALS['route'], (array) $slugs, true ); }
@@ -44,6 +47,8 @@ function esc_html_e( $value, $domain = '' ) { echo esc_html( $value ); }
 function esc_attr_e( $value, $domain = '' ) { echo esc_attr( $value ); }
 function wp_body_open() {}
 function wp_footer() {}
+function get_header() { echo '<header class="theme-header">Store header</header><main id="content">'; }
+function get_footer() { echo '</main><footer class="theme-footer">Store footer</footer>'; }
 function wp_head() {
 	echo '<title>King Ring preview</title>';
 	foreach ( $GLOBALS['styles'] as $style ) {
@@ -104,6 +109,25 @@ foreach ( array( 'support', 'contactus', '404' ) as $slug ) {
 		}
 	}
 }
+
+$active_stylesheet = 'kingring-store';
+foreach ( array( 'support', 'contactus' ) as $slug ) {
+	$html = render_page( $slug );
+	expect( count( $styles ) === 1, $slug . ' integrated stylesheet count' );
+	expect( isset( $styles['kingring-support-pages-store'] ), $slug . ' integrated stylesheet' );
+	expect( $styles['kingring-support-pages-store'][1] === array( 'kingring-store' ), $slug . ' store stylesheet dependency' );
+	expect( substr_count( $html, 'class="theme-header"' ) === 1, $slug . ' store header once' );
+	expect( substr_count( $html, 'class="theme-footer"' ) === 1, $slug . ' store footer once' );
+	expect( ! str_contains( $html, '<header class="kr-header">' ), $slug . ' no standalone header' );
+}
+
+$route = '404';
+$styles = array();
+expect( kingring_support_pages_template( 'theme.php' ) === 'theme.php', 'Store theme owns 404' );
+kingring_support_pages_assets();
+expect( $styles === array(), 'Store 404 has no support assets' );
+
+$active_stylesheet = 'legacy-theme';
 
 foreach ( array( 'privacy-policy', 'home', 'post', 'search' ) as $slug ) {
 	$route = $slug;

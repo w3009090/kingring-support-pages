@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone Support, Contact and 404 layouts without changing the active WordPress theme.
- * Version: 2.5.3
+ * Version: 2.5.4
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.3' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.4' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -728,8 +728,19 @@ function kingring_support_pages_filter_sitemap_taxonomies( $taxonomies ) {
 }
 add_filter( 'wp_sitemaps_taxonomies', 'kingring_support_pages_filter_sitemap_taxonomies' );
 
+function kingring_support_pages_uses_store_theme() {
+	$stylesheets = array_filter(
+		array(
+			function_exists( 'get_stylesheet' ) ? get_stylesheet() : '',
+			function_exists( 'get_template' ) ? get_template() : '',
+		)
+	);
+
+	return in_array( 'kingring-store', $stylesheets, true );
+}
+
 function kingring_support_pages_template( $template ) {
-	if ( is_404() ) {
+	if ( is_404() && ! kingring_support_pages_uses_store_theme() ) {
 		return KINGRING_SUPPORT_PAGES_DIR . 'templates/404.php';
 	}
 
@@ -746,6 +757,18 @@ function kingring_support_pages_template( $template ) {
 add_filter( 'template_include', 'kingring_support_pages_template', 99 );
 
 function kingring_support_pages_assets() {
+	if ( kingring_support_pages_uses_store_theme() ) {
+		if ( is_page( array( 'support', 'contactus' ) ) ) {
+			wp_enqueue_style(
+				'kingring-support-pages-store',
+				KINGRING_SUPPORT_PAGES_URL . 'assets/store-integration.css',
+				array( 'kingring-store' ),
+				KINGRING_SUPPORT_PAGES_VERSION
+			);
+		}
+		return;
+	}
+
 	if ( is_404() || is_page( array( 'support', 'contactus' ) ) ) {
 		wp_enqueue_style(
 			'kingring-support-pages',

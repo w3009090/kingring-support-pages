@@ -15,6 +15,7 @@ $subject        = '';
 $order_number   = '';
 $message        = '';
 $privacy_agreed = false;
+$store_theme    = kingring_support_pages_uses_store_theme();
 
 if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['kingring_contact_nonce'] ) ) {
 	$nonce = sanitize_text_field( wp_unslash( $_POST['kingring_contact_nonce'] ) );
@@ -89,7 +90,13 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['kingring_contact_no
 		}
 	}
 }
-?><!doctype html>
+if ( $store_theme ) {
+	get_header();
+	?>
+	<div id="kr-support-content" class="kr-shell kr-contact-page krsp-store-page">
+	<?php
+} else {
+	?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -100,6 +107,9 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['kingring_contact_no
 <?php wp_body_open(); ?>
 <?php kingring_support_pages_header(); ?>
 <main id="kr-content" class="kr-contact-page">
+	<?php
+}
+?>
 	<header class="kr-contact-hero">
 		<p class="kr-eyebrow"><?php echo esc_html( $settings['contact_eyebrow'] ); ?></p>
 		<h1><?php echo esc_html( $settings['contact_title'] ); ?></h1>
@@ -188,8 +198,13 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['kingring_contact_no
 	<section class="kr-contact-map" aria-label="<?php esc_attr_e( 'Map', 'kingring-support-pages' ); ?>">
 		<iframe loading="lazy" src="<?php echo esc_url( $settings['map_url'] ); ?>" title="<?php esc_attr_e( 'King Ring location', 'kingring-support-pages' ); ?>"></iframe>
 	</section>
-</main>
-<?php kingring_support_pages_footer(); ?>
-<?php wp_footer(); ?>
-</body>
-</html>
+<?php if ( $store_theme ) : ?>
+	</div>
+	<?php get_footer(); ?>
+<?php else : ?>
+	</main>
+	<?php kingring_support_pages_footer(); ?>
+	<?php wp_footer(); ?>
+	</body>
+	</html>
+<?php endif; ?>

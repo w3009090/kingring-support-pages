@@ -5,7 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $settings = kingring_support_pages_settings();
 $hero_url = $settings['hero_image_url'] ? $settings['hero_image_url'] : kingring_support_pages_image( 'hero.jpg' );
-?><!doctype html>
+$store_theme = kingring_support_pages_uses_store_theme();
+
+if ( $store_theme ) {
+	get_header();
+	?>
+	<div id="kr-support-content" class="kr-shell krsp-store-page krsp-store-support">
+	<?php
+} else {
+	?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -16,6 +24,9 @@ $hero_url = $settings['hero_image_url'] ? $settings['hero_image_url'] : kingring
 <?php wp_body_open(); ?>
 <?php kingring_support_pages_header(); ?>
 <main id="kr-content">
+	<?php
+}
+?>
 	<section class="kr-hero">
 		<img src="<?php echo esc_url( $hero_url ); ?>" width="1500" height="879" alt="<?php esc_attr_e( 'King Ring product packaging and rings', 'kingring-support-pages' ); ?>">
 	</section>
@@ -51,8 +62,13 @@ $hero_url = $settings['hero_image_url'] ? $settings['hero_image_url'] : kingring
 		</blockquote>
 
 	</section>
-</main>
-<?php kingring_support_pages_footer(); ?>
-<?php wp_footer(); ?>
-</body>
-</html>
+<?php if ( $store_theme ) : ?>
+	</div>
+	<?php get_footer(); ?>
+<?php else : ?>
+	</main>
+	<?php kingring_support_pages_footer(); ?>
+	<?php wp_footer(); ?>
+	</body>
+	</html>
+<?php endif; ?>
