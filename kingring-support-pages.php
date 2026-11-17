@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone Support, Contact and 404 layouts without changing the active WordPress theme.
- * Version: 2.6.0
+ * Version: 2.6.1
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.6.0' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.6.1' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {

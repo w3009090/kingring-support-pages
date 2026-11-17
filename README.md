@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.6.0**.
+Current version: **2.6.1**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 

@@ -82,7 +82,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   margin-top: 48px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--kr-line);
   border-radius: 12px;
   background: #fff;
@@ -103,17 +103,22 @@
   box-shadow: none;
   color: var(--kr-ink);
   text-decoration: none;
-  transition: background-color .2s ease, color .2s ease;
+  transition: background-color .2s ease, color .2s ease, box-shadow .24s ease, transform .24s ease;
 }
 
 .krsp-store-support .kr-card:last-child {
   border-right: 0;
 }
 
-.krsp-store-support .kr-card:hover {
-  transform: none;
-  background: var(--kr-paper);
-  box-shadow: none;
+.krsp-store-support .kr-card:hover,
+.krsp-store-support .kr-card:focus-visible {
+  position: relative;
+  z-index: 1;
+  transform: translateY(-4px);
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .12);
+  outline: 1px solid #333;
+  outline-offset: -1px;
 }
 
 .krsp-store-support .kr-card img {
