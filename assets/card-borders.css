@@ -699,6 +699,121 @@
   background: #fcfcfa;
 }
 
+/* The missing-page layout shares the site's header and footer without a hero. */
+.kr-page.kr-not-found {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.kr-page.kr-not-found.admin-bar {
+  min-height: calc(100svh - 32px);
+}
+
+.kr-not-found #kr-content.kr-not-found__main {
+  width: min(100% - 48px, 1120px);
+  margin: 0 auto;
+  padding: calc(84px + 64px) 0 64px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.kr-not-found__content {
+  width: 100%;
+  max-width: 640px;
+  letter-spacing: 0;
+}
+
+.kr-not-found__code {
+  margin: 0 0 20px;
+  color: #5f6268;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.kr-not-found__content h1 {
+  margin: 0 0 24px;
+  color: #171717;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.kr-not-found__intro {
+  max-width: 460px;
+  margin: 0 auto;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.kr-not-found__actions {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 28px;
+}
+
+.kr-not-found__button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 24px;
+  border: 1px solid #222;
+  border-radius: 999px;
+  background: #222;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color .18s ease, background-color .18s ease;
+}
+
+.kr-not-found__button:hover {
+  background: #fcfcfa;
+  color: #222;
+}
+
+.kr-not-found__contact {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: #222;
+  font-size: 14px;
+  text-underline-offset: 4px;
+}
+
+.kr-not-found__actions a:focus-visible {
+  outline: 2px solid #222;
+  outline-offset: 4px;
+}
+
+@media (max-width: 782px) {
+  .kr-page.kr-not-found.admin-bar {
+    min-height: calc(100svh - 46px);
+  }
+}
+
+@media (max-width: 560px) {
+  .kr-not-found #kr-content.kr-not-found__main {
+    width: min(100% - 32px, 520px);
+    padding: calc(82px + 48px) 0 48px;
+  }
+
+  .kr-not-found__content h1 {
+    font-size: 36px;
+  }
+}
+
 #kr-content:not(.kr-contact-page) {
   padding-top: 82px;
 }

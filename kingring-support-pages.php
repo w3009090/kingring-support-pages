@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Codex Plugin
- * Description: Standalone layouts for the /support/ and /contactus/ pages without changing the active WordPress theme.
- * Version: 2.5.2
+ * Description: Standalone Support, Contact and 404 layouts without changing the active WordPress theme.
+ * Version: 2.5.3
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.2' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.3' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -729,6 +729,10 @@ function kingring_support_pages_filter_sitemap_taxonomies( $taxonomies ) {
 add_filter( 'wp_sitemaps_taxonomies', 'kingring_support_pages_filter_sitemap_taxonomies' );
 
 function kingring_support_pages_template( $template ) {
+	if ( is_404() ) {
+		return KINGRING_SUPPORT_PAGES_DIR . 'templates/404.php';
+	}
+
 	if ( is_page( 'support' ) ) {
 		return KINGRING_SUPPORT_PAGES_DIR . 'templates/support.php';
 	}
@@ -742,7 +746,7 @@ function kingring_support_pages_template( $template ) {
 add_filter( 'template_include', 'kingring_support_pages_template', 99 );
 
 function kingring_support_pages_assets() {
-	if ( is_page( array( 'support', 'contactus' ) ) ) {
+	if ( is_404() || is_page( array( 'support', 'contactus' ) ) ) {
 		wp_enqueue_style(
 			'kingring-support-pages',
 			KINGRING_SUPPORT_PAGES_URL . 'assets/style.css',

@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.2**.
+Current version: **2.5.3**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -30,6 +30,11 @@ WordPress plugin providing standalone layouts for:
 
 - `/support/`
 - `/contactus/`
+- Missing URLs (HTTP 404), with the same header, footer and responsive layout.
+
+Version 2.5.3 replaces the active theme's legacy error page with a branded
+"Page not found" screen and links to Support and Contact. Missing URLs remain
+HTTP 404; no pages are created or redirected and existing page settings are preserved.
 
 ## GitHub auto-updates
 
