@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.7**.
+Current version: **2.5.8**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -53,6 +53,10 @@ Version 2.5.7 restores the original King Ring Support composition inside the
 unified store shell: full-width support hero, centered introduction, one
 segmented three-action panel and the closing brand quote. Store Header, Footer,
 account and catalog routes remain shared with WooCommerce.
+
+Version 2.5.8 replaces the Amazon mark in the internal Shop card with a real
+WooCommerce ring image, so the restored Support layout no longer suggests that
+the unified-store link opens a different marketplace.
 
 ## GitHub auto-updates
 
