@@ -93,7 +93,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['kingring_contact_no
 if ( $store_theme ) {
 	get_header();
 	?>
-	<div id="kr-support-content" class="kr-shell kr-contact-page krsp-store-page">
+	<div id="kr-support-content" class="kr-contact-page krsp-store-page">
 	<?php
 } else {
 	?><!doctype html>

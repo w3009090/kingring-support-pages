@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.9**.
+Current version: **2.6.0**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -61,6 +61,10 @@ the unified-store link opens a different marketplace.
 Version 2.5.9 restores the two original Amazon support actions requested for
 the unified store: `Rate Your Order` opens Amazon order history and `Visit the
 Store` opens the King Ring Amazon storefront with its Amazon icon.
+
+Version 2.6.0 completes the Contact transfer into the unified store. It restores
+the centered source-page introduction, unboxed form/details layout, original
+field rhythm and the map section that the earlier store integration hid.
 
 ## GitHub auto-updates
 

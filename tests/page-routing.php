@@ -137,6 +137,8 @@ foreach ( array( 'support', 'contactus' ) as $slug ) {
 	}
 	if ( 'contactus' === $slug ) {
 		expect( str_contains( $html, 'I agree to the Privacy Policy.' ), 'Contact keeps privacy consent text' );
+		expect( str_contains( $html, 'class="kr-contact-map"' ), 'Contact preserves source map section' );
+		expect( str_contains( $html, 'title="King Ring location"' ), 'Contact preserves map iframe' );
 	}
 }
 
