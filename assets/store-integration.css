@@ -26,6 +26,8 @@
 
 .krsp-store-support .kr-hero {
   min-height: 390px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr);
   overflow: hidden;
   border-radius: var(--kr-radius-lg);
   background: var(--kr-paper);
@@ -34,16 +36,25 @@
 
 .krsp-store-support .kr-hero img {
   width: 100%;
-  height: clamp(390px, 42vw, 520px);
+  height: 100%;
+  min-height: 390px;
   object-fit: cover;
-  object-position: center 46%;
+  object-position: 42% center;
 }
 
 .krsp-store-support .kr-support {
-  padding-top: 64px;
+  padding-top: 48px;
 }
 
-.krsp-store-support .kr-support > h1,
+.krsp-support-hero__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+  background: var(--kr-paper);
+}
+
+.krsp-store-support .krsp-support-hero__copy h1,
 .kr-contact-page .kr-contact-hero h1 {
   max-width: 780px;
   margin: 0;
@@ -54,7 +65,7 @@
   line-height: 1.02;
 }
 
-.krsp-store-support .kr-support-intro,
+.krsp-store-support .krsp-support-hero__copy .kr-support-intro,
 .kr-contact-page .kr-contact-hero > p:last-child {
   max-width: 720px;
   margin: 22px 0 0;
@@ -197,10 +208,10 @@
   transform: none;
 }
 
-.kr-contact-page .kr-form > label:has(input:focus) > span,
-.kr-contact-page .kr-form > label:has(input:not(:placeholder-shown)) > span,
-.kr-contact-page .kr-form > label:has(textarea:focus) > span,
-.kr-contact-page .kr-form > label:has(textarea:not(:placeholder-shown)) > span {
+.kr-contact-page .kr-form > label:not(.kr-consent):has(input:focus) > span,
+.kr-contact-page .kr-form > label:not(.kr-consent):has(input:not(:placeholder-shown)) > span,
+.kr-contact-page .kr-form > label:not(.kr-consent):has(textarea:focus) > span,
+.kr-contact-page .kr-form > label:not(.kr-consent):has(textarea:not(:placeholder-shown)) > span {
   opacity: 0;
   visibility: hidden;
 }
@@ -381,11 +392,7 @@
 }
 
 .kr-contact-page .kr-contact-map {
-  margin-top: 48px;
-  overflow: hidden;
-  border: 1px solid var(--kr-line);
-  border-radius: 24px;
-  background: var(--kr-paper);
+  display: none;
 }
 
 .kr-contact-page .kr-contact-map iframe {
@@ -413,15 +420,21 @@
 
   .krsp-store-support .kr-hero {
     min-height: 260px;
+    grid-template-columns: 1fr;
     border-radius: 24px;
   }
 
   .krsp-store-support .kr-hero img {
     height: 260px;
+    min-height: 260px;
+  }
+
+  .krsp-support-hero__copy {
+    padding: 30px 24px 34px;
   }
 
   .krsp-store-support .kr-support {
-    padding-top: 42px;
+    padding-top: 34px;
   }
 
   .krsp-store-support .kr-grid {

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Codex Plugin
  * Description: Standalone Support, Contact and 404 layouts without changing the active WordPress theme.
- * Version: 2.5.4
+ * Version: 2.5.5
  * Author: Codex
  * Update URI: https://github.com/w3009090/kingring-support-pages
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'KINGRING_SUPPORT_PAGES_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KINGRING_SUPPORT_PAGES_URL', plugin_dir_url( __FILE__ ) );
-define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.4' );
+define( 'KINGRING_SUPPORT_PAGES_VERSION', '2.5.5' );
 define( 'KINGRING_SUPPORT_PAGES_GITHUB_API', 'https://api.github.com/repos/w3009090/kingring-support-pages/releases/latest' );
 
 function kingring_support_pages_defaults() {
@@ -26,7 +26,7 @@ function kingring_support_pages_defaults() {
 		'support_title'            => 'How can we help you today?',
 		'support_intro'            => 'Honest support, quick replies, and a love for every detail — just like the rings we make.',
 		'contact_card_title'       => 'Contact Us',
-		'contact_card_text'        => 'Questions, returns, or feedback — write to our team and we’ll reply within a few hours.',
+		'contact_card_text'        => 'Questions, returns, or feedback — write to our team and we will reply within 1 business day.',
 		'contact_card_action'      => 'Open Form',
 		'rate_card_title'          => 'Rate Your Order',
 		'rate_card_text'           => 'Already received your ring? Share a quick review on Amazon — it means a lot.',
@@ -244,6 +244,10 @@ function kingring_support_pages_upgrade_settings() {
 
 		if ( isset( $saved['reply_time_text'] ) && false !== stripos( $saved['reply_time_text'], 'few hours' ) ) {
 			$saved['reply_time_text'] = 'Within 1 business day, Mon-Fri.';
+		}
+
+		if ( isset( $saved['contact_card_text'] ) && false !== stripos( $saved['contact_card_text'], 'few hours' ) ) {
+			$saved['contact_card_text'] = 'Questions, returns, or feedback — write to our team and we will reply within 1 business day.';
 		}
 
 		update_option( 'kingring_support_pages_settings', $saved );

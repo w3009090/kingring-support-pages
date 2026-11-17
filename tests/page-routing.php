@@ -23,6 +23,7 @@ function plugin_dir_url( $file ) { return '/'; }
 function get_option( $key, $default = false ) { return $GLOBALS['saved_settings']; }
 function get_stylesheet() { return $GLOBALS['active_stylesheet']; }
 function get_template() { return $GLOBALS['active_stylesheet']; }
+function get_theme_file_uri( $path ) { return '/wp-content/themes/kingring-store' . $path; }
 function wp_parse_args( $values, $defaults ) { return array_merge( $defaults, $values ); }
 function is_404() { return $GLOBALS['route'] === '404'; }
 function is_page( $slugs ) { return in_array( $GLOBALS['route'], (array) $slugs, true ); }
@@ -119,6 +120,15 @@ foreach ( array( 'support', 'contactus' ) as $slug ) {
 	expect( substr_count( $html, 'class="theme-header"' ) === 1, $slug . ' store header once' );
 	expect( substr_count( $html, 'class="theme-footer"' ) === 1, $slug . ' store footer once' );
 	expect( ! str_contains( $html, '<header class="kr-header">' ), $slug . ' no standalone header' );
+	if ( 'support' === $slug ) {
+		expect( str_contains( $html, 'lifestyle-story-banner.jpg' ), 'Support uses store hero' );
+		expect( str_contains( $html, 'category-all-rings.jpg' ), 'Support uses store product image' );
+		expect( str_contains( $html, 'krsp-support-hero__copy' ), 'Support keeps heading in first viewport' );
+		expect( ! str_contains( $html, 'kr-support-quote' ), 'Support omits decorative quote in store layout' );
+	}
+	if ( 'contactus' === $slug ) {
+		expect( str_contains( $html, 'I agree to the Privacy Policy.' ), 'Contact keeps privacy consent text' );
+	}
 }
 
 $route = '404';

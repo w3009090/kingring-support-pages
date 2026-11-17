@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.4**.
+Current version: **2.5.5**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -40,6 +40,11 @@ Version 2.5.4 adds a safe integration mode for the unified `kingring-store`
 WooCommerce theme. Support and Contact keep their routes, editable content and
 form behavior, but use the store's shared header, footer, palette and responsive
 system. The store theme keeps ownership of its homepage and 404 page.
+
+Version 2.5.5 completes visual acceptance of the integration: it keeps the
+Privacy consent visible, replaces the old marketplace icon and unrelated hero
+with store-owned ring imagery, removes the empty embedded-map gap, and uses the
+consistent 1-business-day reply promise.
 
 ## GitHub auto-updates
 
