@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.8**.
+Current version: **2.5.9**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -57,6 +57,10 @@ account and catalog routes remain shared with WooCommerce.
 Version 2.5.8 replaces the Amazon mark in the internal Shop card with a real
 WooCommerce ring image, so the restored Support layout no longer suggests that
 the unified-store link opens a different marketplace.
+
+Version 2.5.9 restores the two original Amazon support actions requested for
+the unified store: `Rate Your Order` opens Amazon order history and `Visit the
+Store` opens the King Ring Amazon storefront with its Amazon icon.
 
 ## GitHub auto-updates
 
