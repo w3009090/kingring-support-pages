@@ -7,6 +7,7 @@ if ( PHP_SAPI === 'cli-server' && str_starts_with( $_SERVER['REQUEST_URI'], '/as
 }
 
 define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+define( 'OBJECT', 'OBJECT' );
 $route = '';
 $styles = array();
 $response_status = 200;
@@ -24,6 +25,13 @@ function get_option( $key, $default = false ) { return $GLOBALS['saved_settings'
 function get_stylesheet() { return $GLOBALS['active_stylesheet']; }
 function get_template() { return $GLOBALS['active_stylesheet']; }
 function get_theme_file_uri( $path ) { return '/wp-content/themes/kingring-store' . $path; }
+function get_page_by_path( $path, $output, $post_type ) { return 'k13' === $path ? (object) array( 'ID' => 13 ) : null; }
+function wc_get_product( $id ) {
+	return 13 === $id ? new class() {
+		public function get_image_id() { return 1313; }
+	} : false;
+}
+function wp_get_attachment_image_url( $id, $size ) { return 1313 === $id ? '/wp-content/uploads/k13-ring.jpg' : false; }
 function wp_parse_args( $values, $defaults ) { return array_merge( $defaults, $values ); }
 function is_404() { return $GLOBALS['route'] === '404'; }
 function is_page( $slugs ) { return in_array( $GLOBALS['route'], (array) $slugs, true ); }
@@ -122,7 +130,7 @@ foreach ( array( 'support', 'contactus' ) as $slug ) {
 	expect( ! str_contains( $html, '<header class="kr-header">' ), $slug . ' no standalone header' );
 	if ( 'support' === $slug ) {
 		expect( str_contains( $html, 'lifestyle-story-banner.jpg' ), 'Support uses store hero' );
-		expect( str_contains( $html, 'category-all-rings.jpg' ), 'Support uses store product image' );
+		expect( str_contains( $html, '/wp-content/uploads/k13-ring.jpg' ), 'Support uses WooCommerce product image' );
 		expect( str_contains( $html, 'krsp-support-hero__copy' ), 'Support keeps heading in first viewport' );
 		expect( ! str_contains( $html, 'kr-support-quote' ), 'Support omits decorative quote in store layout' );
 	}

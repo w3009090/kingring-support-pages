@@ -1,6 +1,6 @@
 # Codex Plugin - King Ring Support Pages
 
-Current version: **2.5.5**.
+Current version: **2.5.6**.
 
 [Полные правила разработки, проверки и публикации плагина](PLUGIN_RULES.md)
 
@@ -45,6 +45,9 @@ Version 2.5.5 completes visual acceptance of the integration: it keeps the
 Privacy consent visible, replaces the old marketplace icon and unrelated hero
 with store-owned ring imagery, removes the empty embedded-map gap, and uses the
 consistent 1-business-day reply promise.
+
+Version 2.5.6 uses a real WooCommerce product image for the Shop card instead
+of shrinking a landscape lifestyle banner into the square card media area.
 
 ## GitHub auto-updates
 

@@ -12,6 +12,17 @@ $store_card_image = $store_theme
 	? get_theme_file_uri( '/assets/images/category-all-rings.jpg' )
 	: kingring_support_pages_image( 'icon-store.jpg' );
 
+if ( $store_theme && function_exists( 'wc_get_product' ) ) {
+	$store_product_post = get_page_by_path( 'k13', OBJECT, 'product' );
+	$store_product = $store_product_post ? wc_get_product( $store_product_post->ID ) : false;
+	if ( $store_product && $store_product->get_image_id() ) {
+		$store_product_image = wp_get_attachment_image_url( $store_product->get_image_id(), 'woocommerce_thumbnail' );
+		if ( $store_product_image ) {
+			$store_card_image = $store_product_image;
+		}
+	}
+}
+
 if ( $store_theme ) {
 	get_header();
 	?>
